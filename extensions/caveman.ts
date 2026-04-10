@@ -34,39 +34,35 @@ interface Animation {
 // Each animation is a short loop designed for a single-line footer slot.
 
 const ANIMATIONS: Record<Exclude<Level, "off">, Animation> = {
-	// Lite: gentle breathing pulse
 	lite: {
-		frames: ["░▒░", "▒▓▒", "▓█▓", "▒▓▒"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "LITE",
-		interval: 500,
+		interval: 300,
 	},
-	// Full: throbbing rock
 	full: {
-		frames: ["▓█▓", "█▓█", "▓░▓", "█▓█"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "CAVEMAN",
-		interval: 400,
+		interval: 250,
 	},
-	// Ultra: fast fire shimmer
 	ultra: {
-		frames: ["░▒▓", "▒▓█", "▓█▒", "█▓░", "▓▒░"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "ULTRA",
-		interval: 150,
+		interval: 120,
 	},
-	// Wenyan modes: flowing scroll
 	"wenyan-lite": {
-		frames: ["▐░▌", "▐▒▌", "▐▓▌", "▐▒▌"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "文言",
-		interval: 500,
+		interval: 300,
 	},
 	wenyan: {
-		frames: ["▐▓▌", "▐█▌", "▐▓▌", "▐▒▌"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "文言文",
-		interval: 400,
+		interval: 250,
 	},
 	"wenyan-ultra": {
-		frames: ["▐░▌", "▐▓▌", "▐█▌", "▐▓▌", "▐░▌"],
+		frames: ["▖", "▘", "▝", "▗"],
 		label: "文言文極",
-		interval: 200,
+		interval: 120,
 	},
 };
 

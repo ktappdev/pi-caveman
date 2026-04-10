@@ -45,10 +45,7 @@ pi install git:github.com/jonjonrankin/pi-caveman
 The active level persists across session restarts. An animated status indicator in the footer shows the current mode — each level has its own block-element animation:
 
 ```
-░▒░ LITE        gentle breathing pulse
-▓█▓ CAVEMAN     throbbing rock
-░▒▓ ULTRA       fast fire shimmer
-▐▓▌ 文言文       flowing scroll
+▖ → ▘ → ▝ → ▗   rock tumbling (speed varies by level)
 ```
 
 ## Levels
