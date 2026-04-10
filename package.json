@@ -1,0 +1,13 @@
+{
+  "name": "pi-caveman",
+  "version": "1.0.0",
+  "description": "Why use many token when few do trick. Caveman mode for pi — cuts ~75% output tokens while keeping full technical accuracy.",
+  "keywords": ["pi-package"],
+  "license": "MIT",
+  "pi": {
+    "extensions": ["./extensions"]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  }
+}
