@@ -151,6 +151,7 @@ export default function caveman(pi: ExtensionAPI) {
 	let config: CavemanConfig = { ...DEFAULT_CONFIG };
 	let timer: ReturnType<typeof setInterval> | null = null;
 	let frameIndex = 0;
+	let isActive = false;
 
 	// -- Animation helpers --
 
@@ -172,10 +173,17 @@ export default function caveman(pi: ExtensionAPI) {
 		}
 
 		const anim = ANIMATIONS[level];
+		const setFrame = (frame: string) => {
+			ctx.ui.setStatus("caveman", frame + " " + theme.fg("muted", "caveman level: ") + theme.fg("text", anim.label));
+		};
+
+		if (!isActive) {
+			setFrame(anim.frames[0]!);
+			return;
+		}
 
 		const renderFrame = () => {
-			const icon = anim.frames[frameIndex % anim.frames.length]!;
-			ctx.ui.setStatus("caveman", icon + " " + theme.fg("muted", "caveman level: ") + theme.fg("text", anim.label));
+			setFrame(anim.frames[frameIndex % anim.frames.length]!);
 			frameIndex++;
 		};
 
@@ -208,8 +216,19 @@ export default function caveman(pi: ExtensionAPI) {
 		syncStatus(ctx);
 	});
 
+	pi.on("agent_start", async (_event, ctx) => {
+		isActive = true;
+		syncStatus(ctx);
+	});
+
+	pi.on("agent_end", async (_event, ctx) => {
+		isActive = false;
+		syncStatus(ctx);
+	});
+
 	pi.on("session_shutdown", async () => {
 		stopAnimation();
+		isActive = false;
 	});
 
 	// -- /caveman command --
