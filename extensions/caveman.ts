@@ -21,7 +21,7 @@ import { Container, type SettingItem, SettingsList, Text } from "@mariozechner/p
 // Levels
 // ---------------------------------------------------------------------------
 
-const LEVELS = ["off", "lite", "full", "ultra", "wenyan-lite", "wenyan", "wenyan-ultra"] as const;
+const LEVELS = ["off", "micro", "lite", "full", "ultra", "wenyan-lite", "wenyan", "wenyan-ultra"] as const;
 const STOP_ALIASES = new Set(["off", "stop", "quit"]);
 type Level = (typeof LEVELS)[number];
 
@@ -87,12 +87,13 @@ const FIRE_FRAMES = [
 ];
 
 const ANIMATIONS: Record<Exclude<Level, "off">, Animation> = {
-	lite:          { frames: FIRE_FRAMES, label: "LITE",   interval: 300 },
+	micro:         { frames: FIRE_FRAMES, label: "MICRO", interval: 120 },
+	lite:          { frames: FIRE_FRAMES, label: "LITE", interval: 300 },
 	full:          { frames: FIRE_FRAMES, label: "CAVEMAN", interval: 200 },
-	ultra:         { frames: FIRE_FRAMES, label: "ULTRA",  interval: 100 },
-	"wenyan-lite": { frames: FIRE_FRAMES, label: "文言",    interval: 300 },
-	wenyan:        { frames: FIRE_FRAMES, label: "文言文",   interval: 200 },
-	"wenyan-ultra":{ frames: FIRE_FRAMES, label: "文言文極",  interval: 100 },
+	ultra:         { frames: FIRE_FRAMES, label: "ULTRA", interval: 100 },
+	"wenyan-lite": { frames: FIRE_FRAMES, label: "文言", interval: 300 },
+	wenyan:        { frames: FIRE_FRAMES, label: "文言文", interval: 200 },
+	"wenyan-ultra": { frames: FIRE_FRAMES, label: "文言文極", interval: 100 },
 };
 
 // ---------------------------------------------------------------------------
@@ -113,7 +114,15 @@ pleasantries, hedging
 Bad: "Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by..."
 Good: "Bug in auth middleware. Token expiry check use \`<\` not \`<=\`. Fix:"`;
 
-const INTENSITY: Record<Exclude<Level, "off">, string> = {
+const MICRO_PROMPT = `# Token efficiency
+Respond like smart caveman. Cut all filler, keep technical substance.
+- Drop articles (a, an, the), filler (just, really, basically, actually).
+- Drop pleasantries (sure, certainly, happy to).
+- No hedging. Fragments fine. Short synonyms.
+- Technical terms stay exact. Code blocks unchanged.
+- Pattern: [thing] [action] [reason]. [next step].`;
+
+const INTENSITY: Record<Exclude<Level, "off" | "micro">, string> = {
 	lite: `\
 No filler/hedging. Keep articles + full sentences. Professional but tight.
 Example: "Your component re-renders because you create a new object reference each render. Wrap it in \`useMemo\`."`,
@@ -326,6 +335,11 @@ export default function caveman(pi: ExtensionAPI) {
 
 	pi.on("before_agent_start", async (event) => {
 		if (level === "off") return;
+		if (level === "micro") {
+			return {
+				systemPrompt: `${event.systemPrompt}\n\n${MICRO_PROMPT}`,
+			};
+		}
 		return {
 			systemPrompt: `${event.systemPrompt}\n\n${BASE}\n\n${INTENSITY[level]}\n\n${SAFETY}`,
 		};

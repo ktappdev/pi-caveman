@@ -39,6 +39,7 @@ pi install git:github.com/jonjonrankin/pi-caveman
 
 ```
 /caveman              Toggle on (full) / off
+/caveman micro        Token-efficiency mode
 /caveman lite         Professional, no fluff
 /caveman full         Classic caveman (default)
 /caveman ultra        Maximum compression
@@ -71,12 +72,13 @@ When active, an animated campfire flickers in the footer using colored braille c
 ⠠⠄ → ⠔⠂ → ⠊⠑ → ...   colored campfire embers (speed varies by level)
 ```
 
-Colors cycle through red → orange → yellow → white-hot → ember using ANSI 256-color. Speed scales with intensity: 300ms for lite, 200ms for full, 100ms for ultra.
+Colors cycle through red → orange → yellow → white-hot → ember using ANSI 256-color. Speed scales with intensity: 120ms for micro, 300ms for lite, 200ms for full, 100ms for ultra.
 
 ## Levels
 
 | Level | Style | Example |
 |-------|-------|---------|
+| **Micro** | Minimal token-efficiency prompt. Drop filler, pleasantries, hedging. Keep technical substance. | "Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:" |
 | **Lite** | No filler. Full sentences. Professional but tight. | "Your component re-renders because you create a new object reference each render." |
 | **Full** | Drop articles, fragments OK. Classic caveman. | "New object ref each render. Wrap in `useMemo`." |
 | **Ultra** | Abbreviations, arrows, maximum compression. | "Inline obj prop → new ref → re-render. `useMemo`." |
@@ -86,7 +88,7 @@ Colors cycle through red → orange → yellow → white-hot → ember using ANS
 
 ## How It Works
 
-The extension hooks `before_agent_start` to append caveman communication rules to the system prompt at the selected intensity. Within a session, the active level is stored as a custom session entry and restored on resume. Across sessions, persistent config (`~/.pi/agent/caveman.json`) provides the default level and status bar preference. Auto-clarity rules tell the model to drop caveman mode for security warnings or irreversible actions.
+The extension hooks `before_agent_start` to append caveman communication rules to the system prompt at the selected intensity. `micro` uses a separate minimal token-efficiency prompt based on caveman-micro; other modes use the richer caveman prompt plus mode-specific instructions. Within a session, the active level is stored as a custom session entry and restored on resume. Across sessions, persistent config (`~/.pi/agent/caveman.json`) provides the default level and status bar preference. Auto-clarity rules tell the model to drop caveman mode for security warnings or irreversible actions.
 
 ## Credits
 
