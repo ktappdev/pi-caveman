@@ -2,7 +2,7 @@
 
 **Why use many token when few do trick.**
 
-A [pi](https://github.com/mariozechner/pi) extension that cuts **~75% of output tokens** while keeping full technical accuracy. Based on [caveman](https://github.com/JuliusBrussee/caveman) by [Julius Brussee](https://github.com/JuliusBrussee).
+A [pi](https://github.com/mariozechner/pi) extension that cuts **~75% of output tokens** while keeping full technical accuracy. Fork of [pi-caveman](https://github.com/jonjonrankin/pi-caveman) by [jonjonrankin](https://github.com/jonjonrankin). Based on [caveman](https://github.com/JuliusBrussee/caveman) by [Julius Brussee](https://github.com/JuliusBrussee).
 
 <table>
 <tr>
@@ -24,13 +24,13 @@ A [pi](https://github.com/mariozechner/pi) extension that cuts **~75% of output 
 </table>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jonjonrankin/pi-caveman/main/pi-caveman.gif" alt="pi-caveman demo" width="600">
+  <img src="https://raw.githubusercontent.com/ktappdev/pi-caveman/main/pi-caveman.gif" alt="pi-caveman demo" width="600">
 </p>
 
 ## Install
 
 ```bash
-pi install git:github.com/jonjonrankin/pi-caveman
+pi install git:github.com/ktappdev/pi-caveman
 ```
 
 ## Usage
