@@ -177,6 +177,7 @@ export default function caveman(pi: ExtensionAPI) {
 	let timer: ReturnType<typeof setInterval> | null = null;
 	let frameIndex = 0;
 	let isActive = false;
+	let initialized = false;
 
 	// -- Animation helpers --
 
@@ -216,10 +217,20 @@ export default function caveman(pi: ExtensionAPI) {
 		timer = setInterval(renderFrame, anim.interval);
 	}
 
+	// Load config immediately on extension init (before prompt shows)
+	(async () => {
+		config = await loadConfig();
+		if (config.defaultLevel !== "off") {
+			level = config.defaultLevel;
+		}
+		initialized = true;
+	})();
+
 	// -- Restore state on session load --
 
 	pi.on("session_start", async (_event, ctx) => {
-		config = await loadConfig();
+		// Wait for init to complete first
+		while (!initialized) await new Promise(r => setTimeout(r, 10));
 
 		// Check for session-level override first (resuming a session)
 		let sessionLevel: Level | null = null;
@@ -234,7 +245,6 @@ export default function caveman(pi: ExtensionAPI) {
 			level = sessionLevel;
 		} else if (config.defaultLevel !== "off") {
 			// New session — apply default from config
-			level = config.defaultLevel;
 			pi.appendEntry("caveman-level", { level });
 		}
 
